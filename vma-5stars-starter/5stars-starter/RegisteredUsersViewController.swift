@@ -109,11 +109,9 @@ class RegisteredUsersViewController: UITableViewController {
     
     private func addUserAndRefresh(user: UserItem) -> Void {
         self.users.append(user)
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.activityIndicator.hidesWhenStopped = true
-            self.activityIndicator.stopAnimating()
-        }
+        self.tableView.reloadData()
+        self.activityIndicator.hidesWhenStopped = true
+        self.activityIndicator.stopAnimating()
     }
     
 }
