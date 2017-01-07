@@ -21,6 +21,8 @@
 		742CA9EA1DF93E78001651C7 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742CA9E91DF93E78001651C7 /* RegistrationViewController.swift */; };
 		742CA9ED1DF94702001651C7 /* StateStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742CA9EC1DF94702001651C7 /* StateStorage.swift */; };
 		744ADB051E20E1A80026B95F /* ProfileViewConctroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744ADB041E20E1A80026B95F /* ProfileViewConctroller.swift */; };
+		744ADB081E20EBA30026B95F /* UIImageResized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744ADB071E20EBA30026B95F /* UIImageResized.swift */; };
+		744ADB0A1E2119B00026B95F /* UpdateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744ADB091E2119B00026B95F /* UpdateProfileViewController.swift */; };
 		744F557E1DFB2A1200D4E7FB /* RegisteredUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F557D1DFB2A1200D4E7FB /* RegisteredUsersViewController.swift */; };
 		744F55811DFB2A6700D4E7FB /* RegisteredUserViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F55801DFB2A6700D4E7FB /* RegisteredUserViewCell.swift */; };
 		744F55831DFB3E2F00D4E7FB /* UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F55821DFB3E2F00D4E7FB /* UserItem.swift */; };
@@ -44,6 +46,8 @@
 		742CA9E91DF93E78001651C7 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		742CA9EC1DF94702001651C7 /* StateStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateStorage.swift; sourceTree = "<group>"; };
 		744ADB041E20E1A80026B95F /* ProfileViewConctroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewConctroller.swift; sourceTree = "<group>"; };
+		744ADB071E20EBA30026B95F /* UIImageResized.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageResized.swift; sourceTree = "<group>"; };
+		744ADB091E2119B00026B95F /* UpdateProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateProfileViewController.swift; sourceTree = "<group>"; };
 		744F557D1DFB2A1200D4E7FB /* RegisteredUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisteredUsersViewController.swift; sourceTree = "<group>"; };
 		744F55801DFB2A6700D4E7FB /* RegisteredUserViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisteredUserViewCell.swift; sourceTree = "<group>"; };
 		744F55821DFB3E2F00D4E7FB /* UserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserItem.swift; sourceTree = "<group>"; };
@@ -87,6 +91,7 @@
 		20E174AB1DCB38E10057D4C9 /* 5stars-starter */ = {
 			isa = PBXGroup;
 			children = (
+				744ADB061E20EB880026B95F /* Extensions */,
 				74E498301DFD4542003453F2 /* Images */,
 				744F557F1DFB2A3800D4E7FB /* Views */,
 				742CA9EB1DF946F2001651C7 /* Models */,
@@ -126,6 +131,7 @@
 				742CA9E91DF93E78001651C7 /* RegistrationViewController.swift */,
 				744F557D1DFB2A1200D4E7FB /* RegisteredUsersViewController.swift */,
 				744ADB041E20E1A80026B95F /* ProfileViewConctroller.swift */,
+				744ADB091E2119B00026B95F /* UpdateProfileViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -138,6 +144,14 @@
 				744F55821DFB3E2F00D4E7FB /* UserItem.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		744ADB061E20EB880026B95F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				744ADB071E20EBA30026B95F /* UIImageResized.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		744F557F1DFB2A3800D4E7FB /* Views */ = {
@@ -187,7 +201,7 @@
 					0,
 				);
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Touch4IT;
 				TargetAttributes = {
 					20E174A81DCB38E10057D4C9 = {
@@ -243,7 +257,9 @@
 				744ADB051E20E1A80026B95F /* ProfileViewConctroller.swift in Sources */,
 				20E174AD1DCB38E10057D4C9 /* AppDelegate.swift in Sources */,
 				744F557E1DFB2A1200D4E7FB /* RegisteredUsersViewController.swift in Sources */,
+				744ADB081E20EBA30026B95F /* UIImageResized.swift in Sources */,
 				744F55811DFB2A6700D4E7FB /* RegisteredUserViewCell.swift in Sources */,
+				744ADB0A1E2119B00026B95F /* UpdateProfileViewController.swift in Sources */,
 				200429021DDB7E6F00A7A3E6 /* RegistrationManager.swift in Sources */,
 				742CA9ED1DF94702001651C7 /* StateStorage.swift in Sources */,
 			);
@@ -289,6 +305,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -339,6 +356,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         if StateStorage().isRegistered {
-            let registeredUsersViewController = storyboard.instantiateViewController(withIdentifier: "RegisteredUsersController")
+            let registeredUsersViewController = storyboard.instantiateViewController(withIdentifier: "NavigationController")
             window!.rootViewController = registeredUsersViewController
         } else {
             let registrationViewController = storyboard.instantiateViewController(withIdentifier: "RegistrationViewController")

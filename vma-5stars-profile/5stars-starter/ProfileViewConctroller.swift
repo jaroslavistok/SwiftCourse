@@ -7,10 +7,19 @@
 //
 
 import UIKit
+import Parse
+
+
+fileprivate let parseClassName = "ParseUser"
+fileprivate let userNameKey = "userName"
 
 class ProfileViewConctroller: UIViewController {
     
     @IBOutlet weak var profilePictureView: UIImageView!
+    
+    @IBOutlet weak var nicknameTextField: UITextField!
+    @IBOutlet weak var nicknameInfo: UILabel!
+    
     
     // MARK: - Status Bar styling
     
@@ -62,6 +71,39 @@ class ProfileViewConctroller: UIViewController {
     
     
     @IBAction func saveProfileAction(_ sender: Any) {
+        saveSelectedPhototoParse()
+        transitToRegisteredUsersView()
+        
+    }
+    
+    private func saveSelectedPhototoParse(){
+       
+        let stateStorage = StateStorage()
+        
+        let registeredUserName = stateStorage.registeredUserName
+        
+        
+        let parseUserQuery = PFQuery(className: parseClassName).whereKey(userNameKey, equalTo: registeredUserName!)
+        parseUserQuery.findObjectsInBackground() { objects, error in
+        
+            if error != nil || objects!.count == 0 {
+                return
+            }
+            
+            if (objects!.count > 1){
+                return
+            }
+            
+            let object = objects?[0]
+            
+            object?["userImage"] = self.profilePictureView.image
+            object?["nickName"] = self.nicknameTextField.text
+            object?.saveInBackground()
+        }
+    }
+    
+    private func transitToRegisteredUsersView(){
+        
     }
     
     private func showAlert() {
@@ -89,7 +131,7 @@ extension ProfileViewConctroller: UIImagePickerControllerDelegate, UINavigationC
         }
         
         // príklad zmeny rozmerov napr. pred odoslaním
-        //_ = chosenImage.resizedImage(withTargetSize: CGSize(width: 400, height: 400))
+        _ = chosenImage.resizedImage(withTargetSize: CGSize(width: 400, height: 400))
         
         dismiss(animated: true, completion: nil)
     }

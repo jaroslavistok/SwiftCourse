@@ -46,7 +46,8 @@ class RegistrationViewController: UIViewController {
                 var stateStorage = StateStorage()
                 stateStorage.isRegistered = true
                 stateStorage.registeredUserName = username
-                self.transitToRegisteredUsersViewController()
+                //self.transitToRegisteredUsersViewController()
+                self.transitToProfilePictureUserViewController()
                 self.stopActivityIndicator()
             } else {
                 self.informationLabel.text = error?.localizedDescription
@@ -58,8 +59,17 @@ class RegistrationViewController: UIViewController {
     private func transitToRegisteredUsersViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let registeredUsersViewController = storyboard.instantiateViewController(withIdentifier: "RegisteredUsersController") as! RegisteredUsersViewController
+        
+        let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController");
         registeredUsersViewController.isPresented = true
-        present(registeredUsersViewController, animated: true, completion: nil)
+        present(navigationController, animated: true, completion: nil)
+    }
+    
+    private func transitToProfilePictureUserViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let profilePictureViewController = storyboard.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewConctroller
+        
+        present(profilePictureViewController, animated: true, completion: nil)
     }
     
     private func stopActivityIndicator(){
