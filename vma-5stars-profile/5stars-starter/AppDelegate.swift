@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // If you would like all objects to be private by default, remove this line.
         defaultACL.getPublicReadAccess = true
-        
+        defaultACL.getPublicWriteAccess = true
         PFACL.setDefault(defaultACL, withAccessForCurrentUser: true)
         
         // Auto signingin after relaunch of application

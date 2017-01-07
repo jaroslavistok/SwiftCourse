@@ -15,6 +15,9 @@ class UpdateProfileViewController: UIViewController {
     @IBAction func saveButtonAction(_ sender: UIButton) {
     }
     
+    @IBAction func hideKeyboard(_ sender: Any) {
+        view.endEditing(true)
+    }
 
     @IBAction func selectFromGalleryAction(_ sender: UIBarButtonItem) {
     }

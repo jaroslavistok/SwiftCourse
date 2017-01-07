@@ -9,7 +9,6 @@
 import UIKit
 import Parse
 
-
 fileprivate let parseClassName = "ParseUser"
 fileprivate let userNameKey = "userName"
 
@@ -20,16 +19,17 @@ class ProfileViewConctroller: UIViewController {
     @IBOutlet weak var nicknameTextField: UITextField!
     @IBOutlet weak var nicknameInfo: UILabel!
     
+    @IBAction func hideKeyboard(_ sender: Any) {
+        view.endEditing(true)
+    }
+   
     
     // MARK: - Status Bar styling
-    
     override var preferredStatusBarStyle : UIStatusBarStyle {
         // urobí biely status bar
         // treba však do Info.plist pridať "View controller-based status bar appearance" -> YES
         return .lightContent
     }
-    
-    // MARK: - Private vars
     
     private lazy var imagePicker: UIImagePickerController = {
         let picker = UIImagePickerController()
@@ -65,27 +65,20 @@ class ProfileViewConctroller: UIViewController {
         } else {
             showAlert()
         }
-        
-
     }
     
     
-    @IBAction func saveProfileAction(_ sender: Any) {
+    @IBAction func saveProfileButtonAction(_ sender: UIBarButtonItem) {
         saveSelectedPhototoParse()
         transitToRegisteredUsersView()
-        
     }
     
     private func saveSelectedPhototoParse(){
-       
         let stateStorage = StateStorage()
+        let registeredUserName = stateStorage.registeredUserName!
         
-        let registeredUserName = stateStorage.registeredUserName
-        
-        
-        let parseUserQuery = PFQuery(className: parseClassName).whereKey(userNameKey, equalTo: registeredUserName!)
+        let parseUserQuery = PFQuery(className: parseClassName).whereKey(userNameKey, equalTo: registeredUserName)
         parseUserQuery.findObjectsInBackground() { objects, error in
-        
             if error != nil || objects!.count == 0 {
                 return
             }
@@ -93,18 +86,50 @@ class ProfileViewConctroller: UIViewController {
             if (objects!.count > 1){
                 return
             }
-            
+        
             let object = objects?[0]
+            let pickedImageData = UIImagePNGRepresentation(self.profilePictureView.image!)
+            let parseImageFile = PFFile(name: "uploaded_image.png", data: pickedImageData!)!
             
-            object?["userImage"] = self.profilePictureView.image
-            object?["nickName"] = self.nicknameTextField.text
-            object?.saveInBackground()
+            parseImageFile.saveInBackground(block: { (success, error) -> Void in
+                if success {
+                    object?["userImage"] = parseImageFile
+                    
+                    if (self.checkNickName()){
+                        object?["nickName"] = self.nicknameTextField.text
+                    }
+                    object?.saveInBackground(block: { (success: Bool, error: Error?) -> Void in
+                        if error == nil {
+                            print("data uploaded")
+                        } else {
+                            print("nepodarilo sa")
+                            print(error!)
+                        }
+                    })
+                }
+            })
+        }
+    }
+    
+    private func checkNickName() -> Bool {
+        if let nickName = self.nicknameTextField.text {
+            if nickName.characters.count > 8 {
+                nicknameInfo.text = "Nickname is too long"
+                return false
+            }
+            return true
+        } else {
+            nicknameInfo.text = "nickname is empty"
+            return false
         }
     }
     
     private func transitToRegisteredUsersView(){
-        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let registeredUsersController = storyboard.instantiateViewController(withIdentifier: "RegisteredUsersController") as! ProfileViewConctroller
+        present(registeredUsersController, animated: true, completion: nil)
     }
+    
     
     private func showAlert() {
         let alert = UIAlertController(title: "Chyba", message: "Vaše zariadenie nemá kameru.", preferredStyle: .alert)

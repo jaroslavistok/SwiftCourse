@@ -149,6 +149,10 @@
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="fyD-84-9km" appends="YES" id="UGa-3c-mBg"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="nickNameTextField" destination="90o-Ur-PkQ" id="vjR-gC-8b2"/>
@@ -156,6 +160,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tKI-RA-dHT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="fyD-84-9km">
+                    <connections>
+                        <action selector="hideKeyboard:" destination="HBe-SA-JK5" id="tR7-64-rMU"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="119" y="693"/>
         </scene>
@@ -244,13 +253,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profil" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JtV-oR-8ic">
-                                <rect key="frame" x="154" y="138" width="68" height="36"/>
+                                <rect key="frame" x="154" y="124" width="68" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R88-qk-DKW">
-                                <rect key="frame" x="68" y="205" width="240" height="226"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder.png" translatesAutoresizingMaskIntoConstraints="NO" id="R88-qk-DKW">
+                                <rect key="frame" x="68" y="230" width="240" height="226"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="TLO-fl-MSe"/>
                                     <constraint firstAttribute="height" constant="226" id="uTg-Zs-YgR"/>
@@ -275,43 +284,49 @@
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="jnw-Rc-TI1"/>
                                 </items>
                             </toolbar>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N1M-MO-fy8">
-                                <rect key="frame" x="170" y="543" width="34" height="30"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="saveProfileAction:" destination="cxw-Zl-lpM" eventType="touchUpInside" id="myP-qN-MKh"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nickname" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YMc-cw-kDj">
-                                <rect key="frame" x="139" y="462" width="97" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="97" id="701-SI-Ks2"/>
-                                    <constraint firstAttribute="height" constant="30" id="Tcx-eX-ojR"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BgS-Fk-Rm6">
-                                <rect key="frame" x="187.5" y="516" width="0.0" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BgS-Fk-Rm6">
+                                <rect key="frame" x="188" y="516" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LTC-wK-sXn">
+                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="khz-Zg-SCu"/>
+                                    <barButtonItem title="Save" id="JjL-tH-HWL">
+                                        <connections>
+                                            <action selector="saveProfileButtonAction:" destination="cxw-Zl-lpM" id="aqJ-g2-sDj"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="OGj-rw-7XP"/>
+                                </items>
+                            </toolbar>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nickname" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YMc-cw-kDj">
+                                <rect key="frame" x="145" y="180" width="86" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="R88-qk-DKW" firstAttribute="top" secondItem="JtV-oR-8ic" secondAttribute="bottom" constant="31" id="0w2-kR-Lsp"/>
-                            <constraint firstItem="BgS-Fk-Rm6" firstAttribute="top" secondItem="YMc-cw-kDj" secondAttribute="bottom" constant="24" id="2ge-aW-YL8"/>
-                            <constraint firstItem="JtV-oR-8ic" firstAttribute="top" secondItem="qqC-W6-3oB" secondAttribute="bottom" constant="74" id="Jvi-t9-4bA"/>
+                            <constraint firstItem="R88-qk-DKW" firstAttribute="top" secondItem="JtV-oR-8ic" secondAttribute="bottom" constant="70" id="0w2-kR-Lsp"/>
+                            <constraint firstAttribute="trailing" secondItem="LTC-wK-sXn" secondAttribute="trailing" id="1UX-vU-CHp"/>
+                            <constraint firstItem="R88-qk-DKW" firstAttribute="top" secondItem="YMc-cw-kDj" secondAttribute="bottom" constant="20" id="3rj-Sc-1aH"/>
+                            <constraint firstItem="LTC-wK-sXn" firstAttribute="top" secondItem="qqC-W6-3oB" secondAttribute="bottom" id="Gh2-U3-Zgs"/>
+                            <constraint firstItem="JtV-oR-8ic" firstAttribute="top" secondItem="qqC-W6-3oB" secondAttribute="bottom" constant="60" id="Jvi-t9-4bA"/>
                             <constraint firstItem="JtV-oR-8ic" firstAttribute="centerX" secondItem="6O6-Hj-SWs" secondAttribute="centerX" id="Mpu-5L-qTI"/>
-                            <constraint firstItem="YMc-cw-kDj" firstAttribute="top" secondItem="R88-qk-DKW" secondAttribute="bottom" constant="31" id="NRD-NC-Yjt"/>
-                            <constraint firstItem="YMc-cw-kDj" firstAttribute="centerX" secondItem="6O6-Hj-SWs" secondAttribute="centerX" id="Nq3-c7-G4k"/>
-                            <constraint firstItem="N1M-MO-fy8" firstAttribute="centerX" secondItem="6O6-Hj-SWs" secondAttribute="centerX" id="Rfh-eI-Brq"/>
+                            <constraint firstItem="YMc-cw-kDj" firstAttribute="centerX" secondItem="6O6-Hj-SWs" secondAttribute="centerX" id="P6b-9V-tBf"/>
                             <constraint firstItem="BgS-Fk-Rm6" firstAttribute="centerX" secondItem="6O6-Hj-SWs" secondAttribute="centerX" id="W2n-Kv-eEG"/>
+                            <constraint firstItem="LTC-wK-sXn" firstAttribute="leading" secondItem="6O6-Hj-SWs" secondAttribute="leading" id="Z4Y-xl-nKj"/>
+                            <constraint firstItem="YMc-cw-kDj" firstAttribute="top" secondItem="JtV-oR-8ic" secondAttribute="bottom" constant="20" id="nPP-Ym-vgN"/>
                             <constraint firstItem="R88-qk-DKW" firstAttribute="centerX" secondItem="6O6-Hj-SWs" secondAttribute="centerX" id="ngW-gW-5bV"/>
-                            <constraint firstItem="N1M-MO-fy8" firstAttribute="top" secondItem="BgS-Fk-Rm6" secondAttribute="bottom" constant="27" id="ocL-z5-glO"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Gh8-ZY-OuE" appends="YES" id="hen-L9-s8b"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="nicknameInfo" destination="BgS-Fk-Rm6" id="kcI-P4-Wmf"/>
@@ -320,6 +335,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VGv-1K-OmT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Gh8-ZY-OuE">
+                    <connections>
+                        <action selector="hideKeyboard:" destination="cxw-Zl-lpM" id="hg0-ou-wxp"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1466.4000000000001" y="0.44977511244377816"/>
         </scene>
@@ -342,4 +362,7 @@
             <point key="canvasLocation" x="-298.39999999999998" y="-0.44977511244377816"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="placeholder.png" width="16" height="16"/>
+    </resources>
 </document>
