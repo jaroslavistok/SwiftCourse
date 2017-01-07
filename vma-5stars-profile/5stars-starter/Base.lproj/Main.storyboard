@@ -140,6 +140,7 @@
                                 <connections>
                                     <outlet property="userImageView" destination="otg-BS-4FR" id="vKB-E4-Cc6"/>
                                     <outlet property="userNameLabel" destination="j1P-n3-j5b" id="YcR-Sy-bvx"/>
+                                    <segue destination="cxw-Zl-lpM" kind="show" id="Hnc-rG-IhB"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -167,18 +168,45 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profil" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JtV-oR-8ic">
-                                <rect key="frame" x="154" y="94" width="68" height="36"/>
+                                <rect key="frame" x="154" y="138" width="68" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R88-qk-DKW">
-                                <rect key="frame" x="68" y="161" width="240" height="226"/>
+                                <rect key="frame" x="68" y="205" width="240" height="226"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="TLO-fl-MSe"/>
                                     <constraint firstAttribute="height" constant="226" id="uTg-Zs-YgR"/>
                                 </constraints>
                             </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Q2-7h-5ud">
+                                <rect key="frame" x="1" y="623" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem width="43" style="plain" systemItem="fixedSpace" id="hwZ-AU-6uN"/>
+                                    <barButtonItem title="Gallery" id="9f6-8c-xsX">
+                                        <connections>
+                                            <action selector="chooseImageFromGallery:" destination="cxw-Zl-lpM" id="gdd-6T-qg3"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Zu1-ea-BwG"/>
+                                    <barButtonItem title="Item" id="Go6-Uu-ODi">
+                                        <connections>
+                                            <action selector="shootImage:" destination="cxw-Zl-lpM" id="LIh-FG-Yh6"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="jnw-Rc-TI1"/>
+                                </items>
+                            </toolbar>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N1M-MO-fy8">
+                                <rect key="frame" x="160" y="489" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveProfileAction:" destination="cxw-Zl-lpM" eventType="touchUpInside" id="myP-qN-MKh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -188,6 +216,9 @@
                             <constraint firstItem="R88-qk-DKW" firstAttribute="centerX" secondItem="6O6-Hj-SWs" secondAttribute="centerX" id="ngW-gW-5bV"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="profilePictureView" destination="R88-qk-DKW" id="In5-QS-Jrq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VGv-1K-OmT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -8,88 +8,95 @@
 
 import UIKit
 
-class ProfileViewConctroller: UITableViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+class ProfileViewConctroller: UIViewController {
+    
+    @IBOutlet weak var profilePictureView: UIImageView!
+    
+    // MARK: - Status Bar styling
+    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        // urobí biely status bar
+        // treba však do Info.plist pridať "View controller-based status bar appearance" -> YES
+        return .lightContent
     }
+    
+    // MARK: - Private vars
+    
+    private lazy var imagePicker: UIImagePickerController = {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        return picker
+    }()
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func chooseImageFromGallery(_ sender: UIBarButtonItem) {
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        
+        /*
+         prezentovanie na celú obrazovku nie je vhodné pre iPad
+         presentViewController(imagePicker, animated: true, completion: nil)
+         */
+        // lepší spôsob je prezentovať picker v popover:
+        imagePicker.modalPresentationStyle = .popover
+        imagePicker.popoverPresentationController?.barButtonItem = sender
+        present(imagePicker, animated: true, completion: nil)
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+    
+    @IBAction func shootImage(_ sender: UIBarButtonItem) {
+        // lepšie je overiť či hw má kameru
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            
+            imagePicker.allowsEditing = false
+            imagePicker.sourceType = .camera
+            imagePicker.cameraCaptureMode = .photo
+            imagePicker.modalPresentationStyle = .fullScreen
+            
+            present(imagePicker, animated: true, completion: nil)
+            
+        } else {
+            showAlert()
+        }
+        
 
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+    
+    
+    @IBAction func saveProfileAction(_ sender: Any) {
     }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    private func showAlert() {
+        let alert = UIAlertController(title: "Chyba", message: "Vaše zariadenie nemá kameru.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+        
     }
-    */
-
+  
 }
+
+
+//MARK: UIImagePickerControllerDelegate
+
+extension ProfileViewConctroller: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        profilePictureView.image = chosenImage
+        
+        // uloženie image do photos
+        if (picker.sourceType == .camera) {
+            UIImageWriteToSavedPhotosAlbum(chosenImage, nil, nil, nil);
+        }
+        
+        // príklad zmeny rozmerov napr. pred odoslaním
+        //_ = chosenImage.resizedImage(withTargetSize: CGSize(width: 400, height: 400))
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+}
+
