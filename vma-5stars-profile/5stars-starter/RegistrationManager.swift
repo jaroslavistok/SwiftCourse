@@ -17,7 +17,6 @@ let userNameEmptyErrorCode = -5001
 let userNameAlreadyTakenErrorCode = -5002
 
 struct RegistrationManager {
-    
     let userName: String
  
     func signUp(_ withBlock: @escaping (_ success: Bool, _ error: Error?) -> Void) {

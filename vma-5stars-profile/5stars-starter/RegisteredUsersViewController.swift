@@ -10,7 +10,6 @@ import UIKit
 import Parse
 
 class RegisteredUsersViewController: UITableViewController {
-    
     var isPresented = false
     
     @IBAction func refresh(_ sender: Any) {
@@ -31,12 +30,9 @@ class RegisteredUsersViewController: UITableViewController {
             let signInVC = storyboard.instantiateViewController(withIdentifier: "RegistrationViewController")
             present(signInVC, animated: true, completion: nil)
         }
-
     }
     
-    
     var users = [UserItem]()
-    
     var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
@@ -50,16 +46,30 @@ class RegisteredUsersViewController: UITableViewController {
         return 1
     }
     
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("You selected cell \(indexPath.row)!")
+        let selectedCell = tableView.cellForRow(at: indexPath)! as! RegisteredUserViewCell
+        
+        let updateController = storyboard?.instantiateViewController(withIdentifier: "UpdateProfileViewController") as! UpdateProfileViewController
+        print("Presenting")
+        updateController.nickname = selectedCell.userNameLabel.text!
+        updateController.userImage = selectedCell.userImageView.image!
+        navigationController?.pushViewController(updateController, animated: true)
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! RegisteredUserViewCell
         let item = users[indexPath.row]
-        cell.userNameLabel.text = item.name
+        if (item.nickname == ""){
+            print(item.nickname)
+            cell.userNameLabel.text = item.name
+        } else {
+            cell.userNameLabel.text = item.nickname
+        }
         cell.userImageView.image = item.image
         return cell
     }
@@ -73,7 +83,7 @@ class RegisteredUsersViewController: UITableViewController {
     
     private func populateTable(){
 
-        let query = PFQuery(className: "ParseUser").selectKeys(["userName", "userImage"])
+        let query = PFQuery(className: "ParseUser").selectKeys(["userName", "userImage", "nickName"])
         self.activityIndicator.startAnimating()
         
         query.findObjectsInBackground { objects, error in
@@ -84,7 +94,7 @@ class RegisteredUsersViewController: UITableViewController {
             for (_, object) in objects.enumerated() {
                 
                 if object["userImage"] == nil  {
-                    let user = UserItem(image: UIImage(named: "placeholder.png")!, name: object["userName"] as! String)
+                    let user = UserItem(image: UIImage(named: "placeholder.png")!, name: object["userName"] as! String, nickname: object["nickName"] as! String)
                     let storage = StateStorage()
                     if (user.name != storage.registeredUserName!){
                         self.addUserAndRefresh(user: user)
@@ -95,11 +105,16 @@ class RegisteredUsersViewController: UITableViewController {
                 let userImageData = object["userImage"] as! PFFile
                 let userName = object["userName"] as! String
                 
+                var userNickname = ""
+                if (object["nickName"] != nil){
+                    userNickname = object["nickName"] as! String
+                }
+                
                 userImageData.getDataInBackground { (imageData: Data?, error: Error?) -> Void in
                     guard error == nil else { return }
                     if (stateStorage.registeredUserName! != userName){
                         let image =  UIImage(data:imageData!)!
-                        let userItem = UserItem(image: image, name: userName)
+                        let userItem = UserItem(image: image, name: userName, nickname: userNickname)
                         self.addUserAndRefresh(user: userItem)
                     }
                 }

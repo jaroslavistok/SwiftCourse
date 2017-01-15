@@ -33,13 +33,9 @@ class RegistrationViewController: UIViewController {
     }
     
     @IBAction func registerAction(_ sender: UIButton) {
-        
         let username = userNameTextField.text
-        
         view.endEditing(true)
-        
         let parseUser = RegistrationManager(userName: username!)
-        
         parseUser.signUp() { (_ success: Bool, _ error: Error?) -> Void in
             self.activityIndicator.startAnimating()
             if (success) {

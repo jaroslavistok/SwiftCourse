@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import Parse
+
 
 struct UserItem {
     let image: UIImage
     let name: String
+    let nickname: String
 }

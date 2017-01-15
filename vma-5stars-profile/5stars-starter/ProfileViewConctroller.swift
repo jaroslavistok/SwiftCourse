@@ -126,19 +126,16 @@ class ProfileViewConctroller: UIViewController {
     
     private func transitToRegisteredUsersView(){
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let registeredUsersController = storyboard.instantiateViewController(withIdentifier: "RegisteredUsersController") as! ProfileViewConctroller
+        let registeredUsersController = storyboard.instantiateViewController(withIdentifier: "NavigationController")
         present(registeredUsersController, animated: true, completion: nil)
     }
-    
     
     private func showAlert() {
         let alert = UIAlertController(title: "Chyba", message: "Vaše zariadenie nemá kameru.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
-        
     }
-  
 }
 
 

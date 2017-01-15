@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 
 struct StateStorage {
@@ -32,6 +33,33 @@ struct StateStorage {
         set {
             let defaults = UserDefaults.standard
             defaults.set(newValue, forKey: registeredUserNameKey)
+            defaults.synchronize()
+        }
+    }
+    
+    private let selectedUserKey = "selectedUser"
+    var selectedUser: String? {
+        get {
+            let defaults = UserDefaults.standard
+            return defaults.string(forKey: selectedUserKey)
+        }
+        set {
+            let defaults = UserDefaults.standard
+            defaults.set(newValue, forKey: selectedUserKey)
+            defaults.synchronize()
+        }
+    }
+    
+    private let selectedUserImageKey = "selectedUserImage"
+    var selectedUserImage: Data? {
+        get {
+            let defaults = UserDefaults.standard
+            return defaults.data(forKey: selectedUserImageKey)
+        }
+        
+        set {
+            let defaults = UserDefaults.standard
+            defaults.set(newValue, forKey: selectedUserImageKey)
             defaults.synchronize()
         }
     }
