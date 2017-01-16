@@ -11,6 +11,11 @@ import Parse
 
 fileprivate let className = "ParseUser"
 fileprivate let userNameKey = "userName"
+fileprivate let userStatusKey = "status"
+fileprivate let userRatingKey = "rating"
+
+fileprivate let defaultStatus = 5
+fileprivate let defaultRating = Float(0.0)
 
 fileprivate let domain = "com.touch4it.vma"
 let userNameEmptyErrorCode = -5001
@@ -47,6 +52,8 @@ struct RegistrationManager {
     private func saveUserName(_ block: @escaping (_ success: Bool, _ error: Error?) -> Void) {
         let parseUser = PFObject(className: className)
         parseUser[userNameKey] = userName
+        parseUser[userStatusKey] = defaultStatus
+        parseUser[userRatingKey] = defaultRating
         parseUser.saveInBackground (block: block)
     }
     

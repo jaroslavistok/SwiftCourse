@@ -13,4 +13,7 @@ struct UserItem {
     let image: UIImage
     let name: String
     let nickname: String
+    
+    let status: Int
+    let rating: Float
 }

@@ -42,7 +42,6 @@ class RegistrationViewController: UIViewController {
                 var stateStorage = StateStorage()
                 stateStorage.isRegistered = true
                 stateStorage.registeredUserName = username
-                //self.transitToRegisteredUsersViewController()
                 self.transitToProfilePictureUserViewController()
                 self.stopActivityIndicator()
             } else {
@@ -50,15 +49,6 @@ class RegistrationViewController: UIViewController {
                 self.stopActivityIndicator()
             }
         }
-    }
-    
-    private func transitToRegisteredUsersViewController() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let registeredUsersViewController = storyboard.instantiateViewController(withIdentifier: "RegisteredUsersController") as! RegisteredUsersViewController
-        
-        let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController");
-        registeredUsersViewController.isPresented = true
-        present(navigationController, animated: true, completion: nil)
     }
     
     private func transitToProfilePictureUserViewController() {
