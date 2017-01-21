@@ -69,6 +69,10 @@ class ProfileViewConctroller: UIViewController {
     
     
     @IBAction func saveProfileButtonAction(_ sender: UIBarButtonItem) {
+        if (nicknameTextField.text!.characters.count > 8){
+            nicknameInfo.text = "Nickname is too long"
+            return
+        }
         saveSelectedPhototoParse()
         transitToRegisteredUsersView()
     }

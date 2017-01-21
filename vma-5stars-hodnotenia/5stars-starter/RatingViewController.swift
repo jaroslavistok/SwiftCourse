@@ -15,11 +15,45 @@ class RatingViewController: UIViewController {
     public var nickname: String?
     public var userName: String?
     
-    public var assessmentUserStatus: Int?
-    public var userToRateStatus: Int?
-    public var userToRateRating: Float?
-    
+    public var assessmentUserStatus: Float?
+    public var userToRateStatus: Float?
     public var starsSelected: Int?
+    
+    func setCurrentStatus(){
+        if (userToRateStatus! >= Float(1) && userToRateStatus! < Float(2)){
+            oneStar.isSelected = true
+            starsSelected = 1
+        }
+        if (userToRateStatus! >= Float(2) && userToRateStatus! < Float(3)){
+            oneStar.isSelected = true
+            twoStar.isSelected = true
+            starsSelected = 2
+        }
+        
+        if (userToRateStatus! >= Float(3) && userToRateStatus! < Float(4)){
+            oneStar.isSelected = true
+            twoStar.isSelected = true
+            threeStar.isSelected = true
+            starsSelected = 3
+        }
+        
+        if (userToRateStatus! >= Float(4) && userToRateStatus! < Float(5)){
+            oneStar.isSelected = true
+            twoStar.isSelected = true
+            threeStar.isSelected = true
+            fourStar.isSelected = true
+            starsSelected = 4
+        }
+        
+        if (userToRateStatus! == Float(5)){
+            oneStar.isSelected = true
+            twoStar.isSelected = true
+            threeStar.isSelected = true
+            fourStar.isSelected = true
+            fiveStar.isSelected = true
+            starsSelected = 5
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +64,11 @@ class RatingViewController: UIViewController {
         welcomeText.text = welcomeString
         userImageView.image = userImage!
         
-        ratingLabel.text = ratingLabel.text! + String(describing: userToRateRating!)
+        setCurrentStatus()
+        
         saveButton.isEnabled = false
+        
+        statusLabel.text = statusLabel.text! + " " + String(describing: userToRateStatus!)
         
         let storage = StateStorage()
         let assesmentUserName = storage.registeredUserName
@@ -48,9 +85,9 @@ class RatingViewController: UIViewController {
             print("Obejcts count \(objects.count)")
             if (objects.count == 1){
                 let object = objects[0]
-                var status = 5
+                var status :Float = 5
                 if (object["status"] != nil){
-                    status = object["status"] as! Int
+                    status = object["status"] as! Float
                 }
                 self.assessmentUserStatus = status
                 print("assesment status \(self.assessmentUserStatus)")
@@ -61,11 +98,11 @@ class RatingViewController: UIViewController {
     
 
     
-    public func saveNewStatusAndRating(rating: Float, status: Float){
+    public func saveNewStatusAndRating(status: Float){
         let query = PFQuery(className: "ParseUser").selectKeys(["status"]).whereKey("userName", equalTo: userName!)
 
         
-        query.findObjectsInBackground { objects, error in
+        query.findObjectsInBackground { [unowned self] objects, error in
             print("")
             guard let objects = objects else { return }
             print("In closure \(error)")
@@ -75,14 +112,14 @@ class RatingViewController: UIViewController {
             print("Obejcts count \(objects.count)")
             if (objects.count == 1){
                 let object = objects[0]
-                object["rating"] = rating
                 object["status"] = status
-                
-                print("Rating: \(rating)")
                 print("Status: \(status)")
                 object.saveInBackground(block: { (success: Bool, error: Error?) -> Void in
                     if error == nil {
                         print("Status and rating updated")
+                        _ = self.navigationController?.popToRootViewController(animated: true)
+                        let rController = self.storyboard?.instantiateViewController(withIdentifier: "RegisteredUsersController") as! RegisteredUsersViewController
+                        rController.shouldRefresh = true
                     } else {
                         print("nepodarilo sa updatovat status a rating")
                         print(error!)
@@ -91,9 +128,7 @@ class RatingViewController: UIViewController {
             }
         }
         
-        _ = navigationController?.popToRootViewController(animated: true)
-        let rController = storyboard?.instantiateViewController(withIdentifier: "RegisteredUsersController") as! RegisteredUsersViewController
-        rController.shouldRefresh = true
+        
         
     }
     @IBAction func saveButtonAction(_ sender: Any) {
@@ -108,16 +143,18 @@ class RatingViewController: UIViewController {
             rating = Float(-1) * Float((5 - starsSelected!)) * 0.01 * weight
         }
         
-        let newStatus = min(Float(userToRateStatus!) + userToRateRating!, 5)
+        var newStatus = min(Float(userToRateStatus!) + rating, 5)
+        if (newStatus < Float(0)){
+            newStatus = Float(0)
+        }
         
-      
-        print("saving")
-        saveNewStatusAndRating(rating: rating, status: newStatus)
+        saveNewStatusAndRating(status: newStatus)
     }
     
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var welcomeText: UILabel!
-    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
+    
     
     // buttons
     @IBOutlet weak var oneStar: UIButton!

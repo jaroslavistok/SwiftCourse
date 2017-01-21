@@ -13,14 +13,6 @@ class RegisteredUsersViewController: UITableViewController {
     var isPresented = false
     var shouldRefresh = false
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.users.removeAll()
-        self.tableView.reloadData()
-        populateTable()
-        print("Will appear")
-    }
-    
-    
     @IBAction func refresh(_ sender: Any) {
         self.users.removeAll()
         self.tableView.reloadData()
@@ -48,6 +40,13 @@ class RegisteredUsersViewController: UITableViewController {
         super.viewDidLoad()
         tableView.rowHeight = CGFloat(80)
         createActivityIndicator()
+        //populateTable()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.users.removeAll()
+        self.tableView.reloadData()
         populateTable()
     }
     
@@ -68,8 +67,7 @@ class RegisteredUsersViewController: UITableViewController {
         ratingController.nickname = selectedCell.userNameLabel.text!
         ratingController.userName = selectedCell.userName!
         ratingController.userImage = selectedCell.userImageView.image!
-        ratingController.userToRateRating = Float(selectedCell.userRating.text!)
-        ratingController.userToRateStatus = Int(selectedCell.userStatus.text!)
+        ratingController.userToRateStatus = Float(selectedCell.userStatus.text!)
         
         navigationController?.pushViewController(ratingController, animated: true)
     }
@@ -84,8 +82,8 @@ class RegisteredUsersViewController: UITableViewController {
             cell.userNameLabel.text = item.nickname
         }
         cell.userName = item.name
-        print(item.rating)
-        cell.userRating.text = String(item.rating)
+        
+        
         cell.userStatus.text = String(item.status)
         cell.userImageView.image = item.image
         return cell
@@ -112,14 +110,10 @@ class RegisteredUsersViewController: UITableViewController {
             for (_, object) in objects.enumerated() {
                 
                 if object["userImage"] == nil  {
-                    
-                    var userRating = Float(0.0)
-                    if (object["rating"]) != nil {
-                        userRating = Float(Int(object["rating"] as! NSNumber))
-                    }
-                    var userStatus = Int(0)
+        
+                    var userStatus = Float(0.0)
                     if (object["status"]) != nil {
-                        userStatus = Int(object["rating"] as! NSNumber)
+                        userStatus = Float(object["status"] as! NSNumber)
                     }
                     var nickName = ""
                     if (object["nickName"]) != nil {
@@ -130,7 +124,7 @@ class RegisteredUsersViewController: UITableViewController {
                         userName = object["userName"] as! String
                     }
                     
-                    let user = UserItem(image: UIImage(named: "placeholder.png")!, name: userName, nickname: nickName, status: userStatus, rating: userRating)
+                    let user = UserItem(image: UIImage(named: "placeholder.png")!, name: userName, nickname: nickName, status: userStatus)
                     let storage = StateStorage()
                     if (user.name != storage.registeredUserName!){
                         self.addUserAndRefresh(user: user)
@@ -141,29 +135,22 @@ class RegisteredUsersViewController: UITableViewController {
                 let userImageData = object["userImage"] as! PFFile
                 let userName = object["userName"] as! String
                 
-                
                 var userNickname = ""
-                var userStatus = 0
-                var userRating :Float = 0.00
+                var userStatus :Float = 0.00
                 
                 if (object["nickName"] != nil) {
                     userNickname = object["nickName"] as! String
                 }
                 
                 if (object["status"] != nil) {
-                    userStatus = object["status"] as! Int
+                    userStatus = object["status"] as! Float
                 }
-                
-                if (object["rating"] != nil){
-                    userRating = object["rating"] as! Float
-                }
-                
                 
                 userImageData.getDataInBackground { (imageData: Data?, error: Error?) -> Void in
                     guard error == nil else { return }
                     if (stateStorage.registeredUserName! != userName){
                         let image =  UIImage(data:imageData!)!
-                        let userItem = UserItem(image: image, name: userName, nickname: userNickname, status: userStatus, rating: userRating)
+                        let userItem = UserItem(image: image, name: userName, nickname: userNickname, status: userStatus)
                         self.addUserAndRefresh(user: userItem)
                     }
                 }
