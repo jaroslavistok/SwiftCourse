@@ -11,4 +11,5 @@ import UIKit
 class RegisteredUserViewCell: UITableViewCell {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
+    public var userName: String?
 }

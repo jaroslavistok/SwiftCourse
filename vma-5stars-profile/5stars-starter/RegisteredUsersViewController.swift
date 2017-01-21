@@ -39,6 +39,9 @@ class RegisteredUsersViewController: UITableViewController {
         super.viewDidLoad()
         tableView.rowHeight = CGFloat(80)
         createActivityIndicator()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         populateTable()
     }
     
@@ -58,6 +61,7 @@ class RegisteredUsersViewController: UITableViewController {
         print("Presenting")
         updateController.nickname = selectedCell.userNameLabel.text!
         updateController.userImage = selectedCell.userImageView.image!
+        updateController.userName = selectedCell.userName
         navigationController?.pushViewController(updateController, animated: true)
     }
     
@@ -70,6 +74,7 @@ class RegisteredUsersViewController: UITableViewController {
         } else {
             cell.userNameLabel.text = item.nickname
         }
+        cell.userName = item.name
         cell.userImageView.image = item.image
         return cell
     }
@@ -94,7 +99,15 @@ class RegisteredUsersViewController: UITableViewController {
             for (_, object) in objects.enumerated() {
                 
                 if object["userImage"] == nil  {
-                    let user = UserItem(image: UIImage(named: "placeholder.png")!, name: object["userName"] as! String, nickname: object["nickName"] as! String)
+                    var nickName = ""
+                    if (object["nickName"]) != nil {
+                        nickName = object["nickName"] as! String
+                    }
+                    var userName = ""
+                    if (object["userName"]) != nil {
+                        userName = object["userName"] as! String
+                    }
+                    let user = UserItem(image: UIImage(named: "placeholder.png")!, name: userName, nickname: nickName)
                     let storage = StateStorage()
                     if (user.name != storage.registeredUserName!){
                         self.addUserAndRefresh(user: user)

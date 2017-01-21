@@ -16,13 +16,12 @@ class UpdateProfileViewController: UIViewController {
     
     public var userImage: UIImage?
     public var nickname: String? = ""
+    public var userName: String?
     
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var nickNameTextField: UITextField!
     
     override func viewDidLoad() {
-        print(nickname!)
-        
         userImageView.image = userImage
         infoLabel.text = nickname
     }
@@ -77,17 +76,17 @@ class UpdateProfileViewController: UIViewController {
     }
     
     @IBAction func saveProfileAction(_ sender: UIBarButtonItem) {
+        if (nickNameTextField.text!.characters.count > 8){
+            infoLabel.text = "Nickname too long"
+            return
+        }
         saveSelectedPhototoParse()
-        transitToRegisteredUsersView()
+        //transitToRegisteredUsersView()
     }
     
     private func saveSelectedPhototoParse(){
         
-        var storage = StateStorage()
-        let selectedUserName = storage.selectedUser!
-        print("selected user name: " + selectedUserName)
-        
-        let parseUserQuery = PFQuery(className: parseClassName).whereKey(userNameKey, equalTo: selectedUserName)
+        let parseUserQuery = PFQuery(className: parseClassName).whereKey(userNameKey, equalTo: userName!)
         parseUserQuery.findObjectsInBackground() { objects, error in
             if error != nil || objects!.count == 0 {
                 return
@@ -105,16 +104,15 @@ class UpdateProfileViewController: UIViewController {
             let pickedImageData = UIImagePNGRepresentation(self.userImageView.image!)
             let parseImageFile = PFFile(name: "uploaded_image.png", data: pickedImageData!)!
             
-            parseImageFile.saveInBackground(block: { (success, error) -> Void in
+            parseImageFile.saveInBackground(block: { [unowned self] (success, error) -> Void in
                 if success {
                     object?["userImage"] = parseImageFile
-                    if (self.checkNickName()){
-                        object?["nickName"] = self.nickNameTextField.text
-                    }
+                    object?["nickName"] = self.nickNameTextField.text
                     
-                    object?.saveInBackground(block: { (success: Bool, error: Error?) -> Void in
+                    object?.saveInBackground(block: { [unowned self] (success: Bool, error: Error?) -> Void in
                         if error == nil {
                             print("data uploaded")
+                            self.transitToRegisteredUsersView()
                         } else {
                             print("nepodarilo sa")
                             print(error!)
@@ -127,19 +125,7 @@ class UpdateProfileViewController: UIViewController {
 
     @IBOutlet weak var infoLabel: UILabel!
     
-    private func checkNickName() -> Bool {
-        if let nickName = self.nickNameTextField.text {
-            if nickName.characters.count > 8 {
-                infoLabel.text = "Nickname is too long"
-                return false
-            }
-            return true
-        } else {
-            infoLabel.text = "nickname is empty"
-            return false
-        }
-    }
-    
+        
     private func transitToRegisteredUsersView(){
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let registeredUsersController = storyboard.instantiateViewController(withIdentifier: "NavigationController")
