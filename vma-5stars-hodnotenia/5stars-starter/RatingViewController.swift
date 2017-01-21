@@ -19,6 +19,12 @@ class RatingViewController: UIViewController {
     public var userToRateStatus: Float?
     public var starsSelected: Int?
     
+    override func viewWillAppear(_ animated: Bool) {
+        statusLabelCenterX.constant -= view.bounds.width
+
+        
+    }
+    
     func setCurrentStatus(){
         if (userToRateStatus! >= Float(1) && userToRateStatus! < Float(2)){
             oneStar.isSelected = true
@@ -57,6 +63,15 @@ class RatingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //animation
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            // 1. nastaviť constraint
+            self.statusLabelCenterX.constant += self.view.bounds.width
+            // 2. invalidate layout
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+        
         var stateStorage = StateStorage()
         let registeredUser = stateStorage.registeredUserName
         let userToRate = nickname
@@ -155,6 +170,7 @@ class RatingViewController: UIViewController {
     @IBOutlet weak var welcomeText: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     
+    @IBOutlet weak var statusLabelCenterX: NSLayoutConstraint!
     
     // buttons
     @IBOutlet weak var oneStar: UIButton!

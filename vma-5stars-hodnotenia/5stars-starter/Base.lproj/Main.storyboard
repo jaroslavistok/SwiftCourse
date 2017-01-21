@@ -291,9 +291,9 @@
                         <color key="backgroundColor" red="1" green="0.4543594031" blue="0.38651581099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="8d8-Yj-i2x" firstAttribute="leading" secondItem="GEX-j9-Ldw" secondAttribute="leading" id="C0L-Fq-b2y"/>
+                            <constraint firstItem="aZS-Hq-IH2" firstAttribute="centerX" secondItem="GEX-j9-Ldw" secondAttribute="centerX" id="DON-an-KmQ"/>
                             <constraint firstItem="aZS-Hq-IH2" firstAttribute="top" secondItem="URG-po-frI" secondAttribute="bottom" constant="29" id="I0f-iC-47E"/>
                             <constraint firstItem="URG-po-frI" firstAttribute="top" secondItem="6Dl-x0-QR1" secondAttribute="bottom" constant="35" id="J4r-0C-rPG"/>
-                            <constraint firstItem="aZS-Hq-IH2" firstAttribute="leading" secondItem="GEX-j9-Ldw" secondAttribute="leadingMargin" constant="118" id="U28-jN-UXm"/>
                             <constraint firstItem="6T4-R2-gdu" firstAttribute="top" secondItem="glA-RM-1bk" secondAttribute="bottom" constant="159" id="cli-Kk-RCe"/>
                             <constraint firstItem="6Dl-x0-QR1" firstAttribute="centerX" secondItem="GEX-j9-Ldw" secondAttribute="centerX" id="ehk-D1-TpU"/>
                             <constraint firstItem="6T4-R2-gdu" firstAttribute="top" secondItem="8d8-Yj-i2x" secondAttribute="bottom" id="g4g-fq-fBf"/>
@@ -309,6 +309,7 @@
                         <outlet property="oneStar" destination="mH1-aM-f43" id="CHQ-om-XkI"/>
                         <outlet property="saveButton" destination="MUf-90-Jwm" id="ESM-4Z-tj1"/>
                         <outlet property="statusLabel" destination="aZS-Hq-IH2" id="G73-5b-Jxy"/>
+                        <outlet property="statusLabelCenterX" destination="DON-an-KmQ" id="vpR-Pn-7Wf"/>
                         <outlet property="threeStar" destination="aUX-fz-PGt" id="mxl-lo-fHC"/>
                         <outlet property="twoStar" destination="Hh6-43-znK" id="ju6-cr-5eL"/>
                         <outlet property="userImageView" destination="URG-po-frI" id="LeE-5B-0Gd"/>
@@ -382,9 +383,9 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BgS-Fk-Rm6">
-                                <rect key="frame" x="88" y="420" width="200" height="100"/>
+                                <rect key="frame" x="88" y="420" width="200" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="MvT-cg-AZw"/>
+                                    <constraint firstAttribute="height" constant="20" id="MvT-cg-AZw"/>
                                     <constraint firstAttribute="width" constant="200" id="Rle-2W-KH0"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -447,7 +448,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="placeholder.png" width="16" height="16"/>
+        <image name="placeholder.png" width="1500" height="1500"/>
         <image name="star" width="50" height="50"/>
         <image name="star_highlighted" width="50" height="50"/>
         <image name="star_selected" width="50" height="50"/>
