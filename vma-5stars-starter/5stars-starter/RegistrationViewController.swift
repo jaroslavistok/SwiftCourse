@@ -20,7 +20,6 @@ class RegistrationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
         activityIndicator.center = self.view.center
@@ -40,7 +39,7 @@ class RegistrationViewController: UIViewController {
         
         let parseUser = RegistrationManager(userName: username!)
         
-        parseUser.signUp() { (_ success: Bool, _ error: Error?) -> Void in
+        parseUser.signUp() { [unowned self] (_ success: Bool, _ error: Error?) -> Void in
             self.activityIndicator.startAnimating()
             if (success) {
                 var stateStorage = StateStorage()

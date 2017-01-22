@@ -69,6 +69,10 @@ class ProfileViewConctroller: UIViewController {
     
     
     @IBAction func saveProfileButtonAction(_ sender: UIBarButtonItem) {
+        if ((nicknameTextField.text?.characters.count)! > 8){
+            nicknameInfo.text = "Prilis dlhy nickname";
+            return
+        }
         saveSelectedPhototoParse()
         transitToRegisteredUsersView()
     }
@@ -94,33 +98,16 @@ class ProfileViewConctroller: UIViewController {
             parseImageFile.saveInBackground(block: { (success, error) -> Void in
                 if success {
                     object?["userImage"] = parseImageFile
-                    
-                    if (self.checkNickName()){
-                        object?["nickName"] = self.nicknameTextField.text
-                    }
+                    object?["nickName"] = self.nicknameTextField.text
                     object?.saveInBackground(block: { (success: Bool, error: Error?) -> Void in
                         if error == nil {
                             print("data uploaded")
                         } else {
                             print("nepodarilo sa")
-                            print(error!)
                         }
                     })
                 }
             })
-        }
-    }
-    
-    private func checkNickName() -> Bool {
-        if let nickName = self.nicknameTextField.text {
-            if nickName.characters.count > 8 {
-                nicknameInfo.text = "Nickname is too long"
-                return false
-            }
-            return true
-        } else {
-            nicknameInfo.text = "nickname is empty"
-            return false
         }
     }
     

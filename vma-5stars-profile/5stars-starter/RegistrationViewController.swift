@@ -36,7 +36,7 @@ class RegistrationViewController: UIViewController {
         let username = userNameTextField.text
         view.endEditing(true)
         let parseUser = RegistrationManager(userName: username!)
-        parseUser.signUp() { (_ success: Bool, _ error: Error?) -> Void in
+        parseUser.signUp() { [unowned self] (_ success: Bool, _ error: Error?) -> Void in
             self.activityIndicator.startAnimating()
             if (success) {
                 var stateStorage = StateStorage()

@@ -42,6 +42,8 @@ class RegisteredUsersViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.users.removeAll()
+        self.tableView.reloadData()
         populateTable()
     }
     
@@ -91,7 +93,7 @@ class RegisteredUsersViewController: UITableViewController {
         let query = PFQuery(className: "ParseUser").selectKeys(["userName", "userImage", "nickName"])
         self.activityIndicator.startAnimating()
         
-        query.findObjectsInBackground { objects, error in
+        query.findObjectsInBackground { [unowned self] objects, error in
             guard let objects = objects else { return }
             
             let stateStorage = StateStorage()
@@ -123,7 +125,7 @@ class RegisteredUsersViewController: UITableViewController {
                     userNickname = object["nickName"] as! String
                 }
                 
-                userImageData.getDataInBackground { (imageData: Data?, error: Error?) -> Void in
+                userImageData.getDataInBackground { [unowned self] (imageData: Data?, error: Error?) -> Void in
                     guard error == nil else { return }
                     if (stateStorage.registeredUserName! != userName){
                         let image =  UIImage(data:imageData!)!

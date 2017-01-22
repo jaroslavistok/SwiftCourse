@@ -20,7 +20,7 @@ struct RegistrationManager {
     
     let userName: String
  
-    func signUp(_ withBlock: @escaping (_ success: Bool, _ error: Error?) -> Void) {
+    func signUp(_ withBlock: @escaping ( _ success: Bool, _ error: Error?) -> Void) {
         
         guard !userName.isEmpty else {
             let err = NSError(domain: domain, code: userNameEmptyErrorCode, userInfo: [NSLocalizedDescriptionKey: "User name is empty."])
