@@ -34,7 +34,7 @@ class RegistrationManager {
             return
         }
         
-        guard userPassword.characters.count > 5 else {
+        guard userPassword.count > 5 else {
             onFailure?("Password is too short")
             return
         }

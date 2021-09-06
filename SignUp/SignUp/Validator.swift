@@ -31,7 +31,7 @@ class Validator {
     public func checkPasswordStrength(password: String) -> PasswordStrengthLevels {
         var passwordRating = 0
         
-        if password.characters.count < 5 {
+        if password.count < 5 {
             return PasswordStrengthLevels.TOO_SHORT
         }
         
